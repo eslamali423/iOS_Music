@@ -1,17 +1,17 @@
 //
-//  MusicAPI.swift
+//  SongsAPI.swift
 //  Podcast
 //
 //  Created by Eslam Ali  on 29/06/2022.
 //
 
 import Foundation
-class BaseDataAPI  : BaseAPI <MusicNetworking> {
+class SongsAPI  : BaseAPI <SongsNetwroking> {
     
-    static let shared  =  BaseDataAPI()
+    static let shared  =  SongsAPI()
     
     func getData(completion: @escaping (Result<APIResponse?, NSError>)->Void) {
-        self.fetchData(target: .getAlbums, responseClass: APIResponse.self) { (result) in
+        self.fetchData(target: .getSongs , responseClass: APIResponse.self) { (result) in
             completion(result)
         }
     }
