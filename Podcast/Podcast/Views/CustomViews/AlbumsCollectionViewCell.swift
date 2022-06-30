@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class AlbumsCollectionViewCell: UICollectionViewCell {
     
@@ -16,6 +17,7 @@ class AlbumsCollectionViewCell: UICollectionViewCell {
        let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.image = UIImage(systemName: "heart")
+        
         image.translatesAutoresizingMaskIntoConstraints = false
 
         return image
@@ -53,9 +55,16 @@ class AlbumsCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(albumImageView)
         contentView.addSubview(titleLabel)
        
-        contentView.layer.borderWidth = 0.5
-        contentView.layer.cornerRadius = 5
-        contentView.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+//        contentView.layer.borderWidth = 0.5
+//        contentView.layer.cornerRadius = 15
+//        contentView.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+//        
+        
+        contentView.layer.shadowColor = UIColor.black.cgColor
+        contentView.layer.shadowOffset = .zero
+        contentView.layer.cornerRadius = 12
+        contentView.layer.shadowRadius = 10
+        contentView.layer.shadowOpacity = 0.3
         
     }
     
@@ -76,14 +85,14 @@ class AlbumsCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    //MARK:- Cell Configuration with Models
-//    public func configureCell(model : Block) {
-//        self.titleLabel.text = model.title
-//        let url = URL(string: model.blockImage ?? "")
-//        self.albumImageView.sd_setImage(with: url, completed: nil)
-//
-//
-//    }
+//    MARK:- Cell Configuration with Models
+    public func configureCell(model : Album) {
+        self.titleLabel.text = model.artistName
+        let url = URL(string: model.artworkUrl100 )
+        self.albumImageView.sd_setImage(with: url, completed: nil)
+
+
+    }
     
   
   
