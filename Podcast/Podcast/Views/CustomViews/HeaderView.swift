@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 
 class HeaderView: UIView{
@@ -13,13 +15,18 @@ class HeaderView: UIView{
    
     //MARK:- Vars
   
+    var disposeBag =  DisposeBag()
+    
     public let titleLabel : UILabel = {
         let label =  UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
+      //  label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.textColor = .label
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.text = "Albums"
+        label.font = .systemFont(ofSize: 28, weight: .black)
+
+        
         return label
     }()
     
@@ -27,33 +34,32 @@ class HeaderView: UIView{
         // Layout
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 140, height: 140)
+        layout.itemSize = CGSize(width: 180, height: 200)
         
         let collectionView = UICollectionView(frame: .zero,  collectionViewLayout: layout)
         collectionView.register(AlbumsCollectionViewCell.self, forCellWithReuseIdentifier: AlbumsCollectionViewCell.identifier)
         collectionView.backgroundColor = .clear
-        collectionView.semanticContentAttribute = .forceRightToLeft
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsHorizontalScrollIndicator = false
-
-
         return collectionView
     }()
     
-
-   
-    
+  
   //MARK:- Initlizaers
-   override init(frame: CGRect) {
+    init(frame: CGRect, albums:  BehaviorSubject<[Album]>) {
         super.init(frame: frame)
-        backgroundColor = .systemBackground
+        backgroundColor = .clear
         self.clipsToBounds = true
         
         addSubview(titleLabel)
         addSubview(collectionView)
 
+        
+        
         collectionView.delegate = self
-        collectionView.dataSource = self
+//        collectionView.dataSource = self
+        
+        
+        bindCollectionView(albums: albums)
     }
 
     required init?(coder: NSCoder) {
@@ -65,39 +71,31 @@ class HeaderView: UIView{
         super.layoutSubviews()
         //let imageSize: CGFloat = bounds.height
         titleLabel.frame = CGRect(
-            x: 0,
-            y: 0,
+            x: 20,
+            y: 10,
             width: bounds.width,
             height: 50
         )
-        collectionView.frame = CGRect(x: 0, y: titleLabel.frame.height + 10, width: bounds.width - 10, height: bounds.height/2)
+        collectionView.frame = CGRect(x: 0, y: titleLabel.frame.height + 4, width: bounds.width, height: bounds.height/1.25)
  
     }
     
 
-    
+    func bindCollectionView(albums:  BehaviorSubject<[Album]>){
+        albums.bind(to: collectionView.rx.items(cellIdentifier: AlbumsCollectionViewCell.identifier,cellType: AlbumsCollectionViewCell.self)) { row, item, cell in
+            
+            cell.configureCell(model: item)
+            
+        }.disposed(by: disposeBag)
+        
+        
+    }
 }
 
 //MARK:- Extension for CollectionView Functions
-extension HeaderView :  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout  {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-       
-        guard let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: AlbumsCollectionViewCell.identifier, for: indexPath) as? AlbumsCollectionViewCell
-        else {
-            print("can't get category cell")
-            return UICollectionViewCell()
-        }
-        
-       
-        return cell
-                
-        }
-    
+extension HeaderView :  UICollectionViewDelegate, UICollectionViewDelegateFlowLayout  {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-          return CGSize(width: 120, height: 140)
+          return CGSize(width: 170, height: 200)
       }
     
     }
