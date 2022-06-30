@@ -10,14 +10,17 @@ import RxSwift
 import RxCocoa
 
 
-class HeaderView: UIView{
+protocol AlbumsDelegate : AnyObject {
+    func didSelectAlbum(url : URL)
+}
 
-   
-    //MARK:- Vars
-  
-    var disposeBag =  DisposeBag()
+class HeaderView: UIView{
     
-    public let titleLabel : UILabel = {
+    //MARK:- Vars
+    var disposeBag =  DisposeBag()
+    weak var delegate : AlbumsDelegate?
+    
+    private let titleLabel : UILabel = {
         let label =  UILabel()
       //  label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
@@ -54,7 +57,6 @@ class HeaderView: UIView{
         addSubview(collectionView)
 
         
-        
         collectionView.delegate = self
 //        collectionView.dataSource = self
         
@@ -74,7 +76,7 @@ class HeaderView: UIView{
             x: 20,
             y: 10,
             width: bounds.width,
-            height: 50
+            height: 40
         )
         collectionView.frame = CGRect(x: 0, y: titleLabel.frame.height + 4, width: bounds.width, height: bounds.height/1.25)
  
@@ -88,9 +90,21 @@ class HeaderView: UIView{
             
         }.disposed(by: disposeBag)
         
+        collectionView.rx.modelSelected(Album.self).subscribe(onNext: { [weak self] (model) in
+            guard let url = URL(string: model.url) else {
+                print("cant get the url")
+                
+                return}
+            print(" get the url")
+
+            self?.delegate?.didSelectAlbum(url: url)
+            
+                }).disposed(by: disposeBag)
+
         
     }
 }
+
 
 //MARK:- Extension for CollectionView Functions
 extension HeaderView :  UICollectionViewDelegate, UICollectionViewDelegateFlowLayout  {
