@@ -49,10 +49,10 @@ class CollectionViewTableViewCell: UITableViewCell {
     //MARK:- Life Cycle
    override  init(style: UITableViewCell.CellStyle, reuseIdentifier : String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+    backgroundColor = .clear
         contentView.addSubview(titleLabel)
         contentView.addSubview(collectionView)
-        backgroundColor = .clear
+    contentView.layer.cornerRadius = 12
     
     getMusicVideos()
         collectionView.delegate = self
@@ -72,7 +72,7 @@ class CollectionViewTableViewCell: UITableViewCell {
             width: bounds.width,
             height: 40
         )
-        collectionView.frame = CGRect(x: 0, y: titleLabel.frame.height + 10, width: bounds.width, height: bounds.height - 60)    }
+        collectionView.frame = CGRect(x: 0, y: titleLabel.frame.height + 4, width: bounds.width, height: bounds.height - 60)    }
     
     
     
@@ -81,7 +81,7 @@ class CollectionViewTableViewCell: UITableViewCell {
         videosViewModel.getVideos { [weak self ](isSuccess) in
             if isSuccess{
                 guard self == self else {return }
-                self?.bindCollectionView(videos: self!.videosViewModel.VideoBehaviorSubject)
+                self?.bindCollectionView(videos: self!.videosViewModel.videoBehaviorSubject)
 
             }
             
@@ -117,9 +117,13 @@ class CollectionViewTableViewCell: UITableViewCell {
 extension CollectionViewTableViewCell :UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+    
+        return CGSize(width: collectionView.frame.width - 20, height: collectionView.frame.height - 40)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+            return UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+        }
     
     
     

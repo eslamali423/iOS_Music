@@ -1,5 +1,5 @@
 //
-//  VideoViewModel.swift
+//  SongsViewModel.swift
 //  Podcast
 //
 //  Created by Eslam Ali  on 01/07/2022.
@@ -9,19 +9,19 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-class VideoViewModel{
+class SongsViewModel{
     
     
     //MARK:- Vars
-    var videoBehaviorSubject = BehaviorSubject(value: [ResponseResult]())
+    var songsBehaviorSubject = BehaviorSubject(value: [ResponseResult]())
     
     
     //MARK:- Methods
-    func getVideos(completion : @escaping (Bool)->Void) {
-        VideoAPI.shared.getData { [weak self] (result) in
+    func getSongs(completion : @escaping (Bool)->Void) {
+        SongsAPI.shared.getData { [weak self] (result) in
             switch result {
             case .success(let response):
-                self?.videoBehaviorSubject.on(.next(response?.feed.results ?? []))
+                self?.songsBehaviorSubject.on(.next(response?.feed.results ?? []))
                
                 completion(true)
             case .failure(let error):
