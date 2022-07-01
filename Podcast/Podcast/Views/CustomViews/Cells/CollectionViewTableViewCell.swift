@@ -8,12 +8,18 @@
 import UIKit
 import RxSwift
 import RxCocoa
+
+protocol VideoDelegate : AnyObject {
+    func didSelectVideo ( url: URL)
+}
+
 class CollectionViewTableViewCell: UITableViewCell {
     
     //MARK:- Vars
     static let identifier = "CollectionViewTableViewCell"
     var videosViewModel = VideoViewModel()
     var disposeBag = DisposeBag()
+    weak var delegate : VideoDelegate?
     
     private let titleLabel : UILabel = {
         let label =  UILabel()
@@ -78,6 +84,9 @@ class CollectionViewTableViewCell: UITableViewCell {
                 self?.bindCollectionView(videos: self!.videosViewModel.VideoBehaviorSubject)
 
             }
+            
+            
+
         }
     }
     
@@ -88,6 +97,16 @@ class CollectionViewTableViewCell: UITableViewCell {
                 cell.configureCell(model: item)
                 
             }.disposed(by: disposeBag)
+            
+            collectionView.rx.modelSelected(ResponseResult.self).subscribe(onNext: { [weak self] (model) in
+                guard let url = URL(string: model.url) else {
+                    print("cant get the url")
+                    
+                    return}
+                print(" get the url")
+                self?.delegate?.didSelectVideo(url: url)
+                
+                    }).disposed(by: disposeBag)
         }
     
 }
