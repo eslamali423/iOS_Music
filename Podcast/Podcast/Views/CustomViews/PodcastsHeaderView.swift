@@ -1,35 +1,31 @@
 //
-//  HeaderView.swift
+//  PodcastsHeaderView.swift
 //  Podcast
 //
-//  Created by Eslam Ali  on 29/06/2022.
+//  Created by Eslam Ali  on 02/07/2022.
 //
 
-import UIKit
 import RxSwift
 import RxCocoa
 
 
-protocol AlbumsDelegate : AnyObject {
+protocol PodcastsDelegate : AnyObject {
     func didSelectAlbum(url : URL)
 }
 
-class HeaderView: UIView{
+class PodcastsHeaderView: UIView{
     
     //MARK:- Vars
     var disposeBag =  DisposeBag()
-    weak var delegate : AlbumsDelegate?
+    weak var delegate : PodcastsDelegate?
     
     private let titleLabel : UILabel = {
         let label =  UILabel()
-      //  label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.textColor = .label
         label.textAlignment = .left
-        label.text = "Albums"
+        label.text = "Podcasts"
         label.font = .systemFont(ofSize: 28, weight: .black)
-
-        
         return label
     }()
     
@@ -37,7 +33,7 @@ class HeaderView: UIView{
         // Layout
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 180, height: 200)
+      //  layout.itemSize = CGSize(width: 180, height: 200)
         
         let collectionView = UICollectionView(frame: .zero,  collectionViewLayout: layout)
         collectionView.register(AlbumsCollectionViewCell.self, forCellWithReuseIdentifier: AlbumsCollectionViewCell.identifier)
@@ -48,7 +44,7 @@ class HeaderView: UIView{
     
   
   //MARK:- Initlizaers
-    init(frame: CGRect, albums:  BehaviorSubject<[Album]>) {
+    init(frame: CGRect, albums:  BehaviorSubject<[ResponseResult]>) {
         super.init(frame: frame)
         backgroundColor = .clear
         self.clipsToBounds = true
@@ -82,15 +78,15 @@ class HeaderView: UIView{
  
     }
     
-
-    func bindCollectionView(albums:  BehaviorSubject<[Album]>){
+//MARK:- Binding CollectionView
+    func bindCollectionView(albums:  BehaviorSubject<[ResponseResult]>){
         albums.bind(to: collectionView.rx.items(cellIdentifier: AlbumsCollectionViewCell.identifier,cellType: AlbumsCollectionViewCell.self)) { row, item, cell in
             
             cell.configureCell(model: item)
             
         }.disposed(by: disposeBag)
         
-        collectionView.rx.modelSelected(Album.self).subscribe(onNext: { [weak self] (model) in
+        collectionView.rx.modelSelected(ResponseResult.self).subscribe(onNext: { [weak self] (model) in
             guard let url = URL(string: model.url) else {
                 print("cant get the url")
                 
@@ -107,10 +103,15 @@ class HeaderView: UIView{
 
 
 //MARK:- Extension for CollectionView Functions
-extension HeaderView :  UICollectionViewDelegate, UICollectionViewDelegateFlowLayout  {
+extension PodcastsHeaderView :  UICollectionViewDelegate, UICollectionViewDelegateFlowLayout  {
+   
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
           return CGSize(width: 170, height: 200)
       }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+            return UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+        }
     
     }
     

@@ -14,7 +14,7 @@ protocol SongsDelegate : AnyObject {
     func didSelectsong(url : URL)
 }
 
-class FooterView: UIView {
+class SongsFooterView: UIView {
     
     //MARK:- Vars
     var songsViewModel = SongsViewModel()
@@ -41,7 +41,7 @@ class FooterView: UIView {
         layout.itemSize = CGSize(width: 180, height: 200)
         
         let collectionView = UICollectionView(frame: .zero,  collectionViewLayout: layout)
-        collectionView.register(AlbumsCollectionViewCell.self, forCellWithReuseIdentifier: AlbumsCollectionViewCell.identifier)
+        collectionView.register(SongsCollectionViewCell.self, forCellWithReuseIdentifier: SongsCollectionViewCell.identifier)
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
@@ -60,7 +60,7 @@ class FooterView: UIView {
         
         bindCollectionView(songs: songs)
         collectionView.delegate = self
-        //        collectionView.dataSource = self
+        //collectionView.dataSource = self
         
         
         
@@ -88,7 +88,7 @@ class FooterView: UIView {
     
     //MARK:- Binding CollectionView
     func bindCollectionView(songs:  BehaviorSubject<[ResponseResult]>){
-        songs.bind(to: collectionView.rx.items(cellIdentifier: AlbumsCollectionViewCell.identifier,cellType: AlbumsCollectionViewCell.self)) { row, item, cell in
+        songs.bind(to: collectionView.rx.items(cellIdentifier: SongsCollectionViewCell.identifier,cellType: SongsCollectionViewCell.self)) { row, item, cell in
             
             cell.configureCell(model: item)
             
@@ -100,10 +100,10 @@ class FooterView: UIView {
                 
                 return}
             print(" get the url")
-            
+
             self?.delegate?.didSelectsong(url: url)
-            
-        }).disposed(by: disposeBag)
+                }).disposed(by: disposeBag)
+
         
         
     }
@@ -111,10 +111,10 @@ class FooterView: UIView {
 
 
 //MARK:- Extension for CollectionView Functions
-extension FooterView :  UICollectionViewDelegate, UICollectionViewDelegateFlowLayout  {
+extension SongsFooterView :  UICollectionViewDelegate, UICollectionViewDelegateFlowLayout  {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 170, height: 200)
+        return CGSize(width: frame.width - 20, height: 80)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
