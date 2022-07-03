@@ -18,15 +18,14 @@ extension VideoNetworking : TargetType {
     
     var baseUrl: String {
         
-        get {return "https://rss.applemarketingtools.com/api/v2/eg/music/most-played/50/"}
+        get {return "https://rss.applemarketingtools.com/api/v2/eg/music/most-played/10/"}
         set {}
     }
-        
         
         var path: String {
         switch self {
         case .getVideos:
-            return "albums.json"
+            return "music-videos.json"
         
     
         }

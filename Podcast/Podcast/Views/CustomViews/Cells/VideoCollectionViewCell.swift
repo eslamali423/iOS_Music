@@ -17,7 +17,8 @@ class VideoCollectionViewCell: UICollectionViewCell {
        let image = UIImageView()
         image.contentMode = .scaleToFill
         image.image = UIImage(systemName: "heart")
-        
+        image.layer.cornerRadius = 12
+        image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
 
         return image
@@ -77,19 +78,26 @@ class VideoCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(nameLabel)
         contentView.addSubview(playImageView)
+        
+        contentView.layer.shadowColor = UIColor.black.cgColor
+        contentView.layer.shadowOffset = .zero
+        contentView.layer.cornerRadius = 12
+        contentView.layer.shadowRadius = 10
+        contentView.layer.shadowOpacity = 0.3
     }
     
     private func ConfigureConstraints(){
         NSLayoutConstraint.activate([
-            videoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            videoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            videoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            videoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             videoImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             videoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
+            
             playImageView.centerYAnchor.constraint(equalTo: videoImageView.centerYAnchor),
             playImageView.centerXAnchor.constraint(equalTo: videoImageView.centerXAnchor),
-            playImageView.widthAnchor.constraint(equalToConstant: 50),
-            playImageView.heightAnchor.constraint(equalToConstant: 50),
+            playImageView.widthAnchor.constraint(equalToConstant: 60),
+            playImageView.heightAnchor.constraint(equalToConstant: 60),
 
             nameLabel.bottomAnchor.constraint(equalTo: videoImageView.bottomAnchor,constant: -12),
             nameLabel.leadingAnchor.constraint(equalTo: videoImageView.leadingAnchor, constant: 8),

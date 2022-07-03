@@ -1,23 +1,23 @@
 //
-//  AlbumsCollectionViewCell.swift
+//  PodcastCollectionViewCell.swift
 //  Podcast
 //
-//  Created by Eslam Ali  on 29/06/2022.
+//  Created by Eslam Ali  on 02/07/2022.
 //
 
 import UIKit
-import SDWebImage
 
-class AlbumsCollectionViewCell: UICollectionViewCell {
+class PodcastCollectionViewCell: UICollectionViewCell {
     
     //MARK:- Vars
-    static let identifier = "AlbumsCollectionViewCell"
+    static let identifier = "PodcastCollectionViewCell"
 
-    private let albumImageView : UIImageView = {
+    private let podcastImageView : UIImageView = {
        let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.image = UIImage(systemName: "heart")
-        
+        image.layer.cornerRadius = 80
+        image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
 
         return image
@@ -64,28 +64,29 @@ class AlbumsCollectionViewCell: UICollectionViewCell {
     private func setupLayouts(){
         
        
-        contentView.addSubview(albumImageView)
+        contentView.addSubview(podcastImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(nameLabel)
         
         
-        contentView.layer.shadowColor = UIColor.black.cgColor
-        contentView.layer.shadowOffset = .zero
-        contentView.layer.cornerRadius = 12
-        contentView.layer.shadowRadius = 10
-        contentView.layer.shadowOpacity = 0.3
+//        contentView.layer.shadowColor = UIColor.black.cgColor
+//        contentView.layer.shadowOffset = .zero
+//        contentView.layer.cornerRadius = 12
+//        contentView.layer.shadowRadius = 10
+//        contentView.layer.shadowOpacity = 0.3
         
     }
     
     private func ConfigureConstraints(){
         NSLayoutConstraint.activate([
-            albumImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            albumImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            albumImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            albumImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50),
+            
+            podcastImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            podcastImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            podcastImageView.widthAnchor.constraint(equalToConstant: 160),
+            podcastImageView.heightAnchor.constraint(equalToConstant: 160),
 
 
-            titleLabel.topAnchor.constraint(equalTo: albumImageView.bottomAnchor,constant: 1),
+            titleLabel.topAnchor.constraint(equalTo: podcastImageView.bottomAnchor,constant: 1),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
 
@@ -98,12 +99,12 @@ class AlbumsCollectionViewCell: UICollectionViewCell {
     }
     
 //    MARK:- Cell Configuration with Models
-    public func configureCell(model : Album) {
+    public func configureCell(model : ResponseResult) {
         self.titleLabel.text = model.name
         self.nameLabel.text = model.artistName
         
         let url = URL(string: model.artworkUrl100 )
-        self.albumImageView.sd_setImage(with: url, completed: nil)
+        self.podcastImageView.sd_setImage(with: url, completed: nil)
 
 
     }

@@ -15,13 +15,12 @@ class PodcastsViewModel {
     var pdocastBehaviorSubject = BehaviorSubject(value: [ResponseResult]())
     
     
-    //MARK:- Methods
-    func getPodcasts(completion : @escaping (Bool)->Void) {
-        AlbumsAPI.shared.getData { [weak self] (result) in
+   //MARK:- Methods
+    func getPodcasts(completion: @escaping (Bool)-> Void){
+        PodcastAPI.shared.getData { (result) in
             switch result {
             case .success(let response):
-                self?.pdocastBehaviorSubject.on(.next(response?.feed.results ?? []))
-                print(response?.feed.results[1].name)
+                print(response?.feed.results[1].kind)
                 completion(true)
             case .failure(let error):
                 print(error.localizedDescription)

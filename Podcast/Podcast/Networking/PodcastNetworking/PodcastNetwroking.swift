@@ -1,5 +1,5 @@
 //
-//  PodcastNetworking.swift
+//  PodcastNetwroking.swift
 //  Podcast
 //
 //  Created by Eslam Ali  on 02/07/2022.
@@ -10,22 +10,21 @@ import Alamofire
 
 enum PodcastNetworking {
     case getPodcasts
-  
-    
 }
 
 extension PodcastNetworking : TargetType {
     
     var baseUrl: String {
         
-        get {return "https://rss.applemarketingtools.com/api/v2/eg/podcasts/top/50"}
+        get {return "https://rss.applemarketingtools.com/api/v2/us/music/most-played/10/albums.json"}
         set {}
     }
+        
         
         var path: String {
         switch self {
         case .getPodcasts:
-            return "/podcasts.json"
+            return ""
         
     
         }
@@ -54,3 +53,13 @@ extension PodcastNetworking : TargetType {
         
         
     }
+
+
+
+
+
+
+
+
+
+

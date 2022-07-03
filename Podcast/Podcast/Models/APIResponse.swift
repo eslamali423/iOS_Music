@@ -15,12 +15,12 @@ struct APIResponse: Codable {
 // MARK: - Feed
 struct Feed: Codable {
     let title: String
-    let results: [Results]
+    let results: [ResponseResult]
 }
 
 
 // MARK: - Result
-struct Results: Codable {
+struct ResponseResult: Codable {
     let artistName, id, name, releaseDate: String
     let kind: String
     let artistUrl: String?
@@ -28,6 +28,5 @@ struct Results: Codable {
     let url: String
 
 }
-
 
 

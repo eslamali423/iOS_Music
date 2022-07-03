@@ -17,7 +17,8 @@ class AlbumsCollectionViewCell: UICollectionViewCell {
        let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.image = UIImage(systemName: "heart")
-        
+        image.layer.cornerRadius = 5
+        image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
 
         return image

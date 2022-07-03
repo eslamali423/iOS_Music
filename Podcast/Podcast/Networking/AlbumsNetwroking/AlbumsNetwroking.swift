@@ -10,8 +10,6 @@ import Alamofire
 
 enum AlbumsNetwroking {
     case getAlbums
-  
-    
 }
 
 extension AlbumsNetwroking : TargetType {
