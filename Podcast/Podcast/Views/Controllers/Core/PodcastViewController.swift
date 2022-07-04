@@ -45,7 +45,7 @@ class PodcastViewController: UIViewController {
     //MARK:- Customize Header  for the TableView
     func configureHeaderView(podcasts : BehaviorSubject<[ResponseResult]>)  {
         let  headerView = PodcastsHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height / 2.5), podcasts: podcasts)
-        headerView.delegate = self
+       // headerView.delegate = self
         tableView.tableHeaderView = headerView
         
     }
@@ -56,7 +56,8 @@ class PodcastViewController: UIViewController {
         podcastViewModel.getPodcasts { [weak self ](isSuccess) in
             if isSuccess{
                 print("get data in virw controller ")
-                self?.configureHeaderView(podcasts: self!.podcastViewModel.pdocastBehaviorSubject)
+               self?.configureHeaderView(podcasts: self!.podcastViewModel.pdocastBehaviorSubject)
+                self?.tableView.reloadData()
             }
         }
     }

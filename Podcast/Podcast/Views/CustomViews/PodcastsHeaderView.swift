@@ -33,7 +33,7 @@ class PodcastsHeaderView: UIView{
         // Layout
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        //  layout.itemSize = CGSize(width: 180, height: 200)
+          layout.itemSize = CGSize(width: 180, height: 200)
         
         let collectionView = UICollectionView(frame: .zero,  collectionViewLayout: layout)
         collectionView.register(PodcastCollectionViewCell.self, forCellWithReuseIdentifier: PodcastCollectionViewCell.identifier)
@@ -86,16 +86,16 @@ class PodcastsHeaderView: UIView{
             
         }.disposed(by: disposeBag)
         
-        collectionView.rx.modelSelected(ResponseResult.self).subscribe(onNext: { [weak self] (model) in
-            guard let url = URL(string: model.url) else {
-                print("cant get the url")
-                
-                return}
-            print(" get the url")
-            
-            self?.delegate?.didSelectPodcast(url: url)
-            
-        }).disposed(by: disposeBag)
+//        collectionView.rx.modelSelected(ResponseResult.self).subscribe(onNext: { [weak self] (model) in
+//            guard let url = URL(string: model.url) else {
+//                print("cant get the url")
+//
+//                return}
+//            print(" get the url")
+//
+//            self?.delegate?.didSelectPodcast(url: url)
+//
+//        }).disposed(by: disposeBag)
         
         
     }
@@ -106,12 +106,12 @@ class PodcastsHeaderView: UIView{
 extension PodcastsHeaderView :  UICollectionViewDelegate, UICollectionViewDelegateFlowLayout  {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 190, height: 250)
-    }
+          return CGSize(width: 170, height: 200)
+      }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-    }
+            return UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+        }
     
 }
 

@@ -16,7 +16,7 @@ extension PodcastNetworking : TargetType {
     
     var baseUrl: String {
         
-        get {return "https://rss.applemarketingtools.com/api/v2/us/music/most-played/10/albums.json"}
+        get {return "https://rss.applemarketingtools.com/api/v2/eg/books/top-free/10/books.json"}
         set {}
     }
         
