@@ -13,7 +13,7 @@ protocol PodcastsDelegate : AnyObject {
     func didSelectPodcast(url : URL)
 }
 
-class PodcastsHeaderView: UIView{
+class PodcastsHeaderView: UICollectionReusableView{
     
     //MARK:- Vars
     var disposeBag =  DisposeBag()
