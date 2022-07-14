@@ -17,17 +17,11 @@ class PodcastViewController: UIViewController {
     
     var disposeBag = DisposeBag()
   
-    private let collectionView : UICollectionView = {
-        // Layout
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: 180, height: 200)
-        
-        let collectionView = UICollectionView(frame: .zero,  collectionViewLayout: layout)
-        collectionView.register(SongsCollectionViewCell.self, forCellWithReuseIdentifier: SongsCollectionViewCell.identifier)
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
-        return collectionView
+    private let tableView : UITableView = {
+        let table = UITableView(frame: .zero, style: .grouped)
+        table.backgroundColor = .clear
+        table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
+        return table
     }()
     
     //MARK:- Life Cycle
@@ -35,7 +29,7 @@ class PodcastViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
-        view.addSubview(collectionView)
+        view.addSubview(tableView)
         getPodcasts()
         
         
@@ -45,18 +39,19 @@ class PodcastViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collectionView.frame = view.bounds
+        tableView.frame = view.bounds
     }
     
     
     //MARK:- Customize Header  for the TableView
     func configureHeaderView(podcasts : BehaviorSubject<[ResponseResult]>)  {
-        let  headerView = PodcastsHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height / 2.5), podcasts: podcasts)
-        headerView.delegate = self
-        
-      //  collectionView.register(PodcastsHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader ,withReuseIdentifier: "cell")
-        
+        let  headerView = PodcastsHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height / 2.5), albums: podcasts)
+     //   headerView.delegate = self
+        tableView.tableHeaderView = headerView
+       
     }
+    
+  
     
     
     //MARK:- Get Podcasts Data
@@ -65,7 +60,7 @@ class PodcastViewController: UIViewController {
             if isSuccess{
                 print("get data in virw controller ")
                self?.configureHeaderView(podcasts: self!.podcastViewModel.pdocastBehaviorSubject)
-                self?.collectionView.reloadData()
+                self?.tableView.reloadData()
             }
         }
     }
@@ -73,17 +68,22 @@ class PodcastViewController: UIViewController {
 
 }
 
-//MARK:- extension for tableView
-extension PodcastViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-  
+//MARK:- extension for TableView delegate and datasource
+extension PodcastViewController : UITableViewDelegate {
+   
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+       return UITableViewCell()
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 300
+    }
     
     
 }
 
-//MARK:- extension for PodcastDelegate
-extension PodcastViewController : PodcastsDelegate {
-    func didSelectPodcast(url: URL) {
-        let songVC =  SFSafariViewController(url: url)
-        present(songVC, animated: true, completion: nil)
-    }
-}
+
+    
+   
+
