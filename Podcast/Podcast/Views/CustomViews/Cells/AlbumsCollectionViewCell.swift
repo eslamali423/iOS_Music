@@ -49,6 +49,7 @@ class AlbumsCollectionViewCell: UICollectionViewCell {
     }()
     
     
+    
     //MARK:- Initilizers
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -19,6 +19,7 @@ class MusicViewController: UIViewController {
     var podcastviewmodel = PodcastsViewModel()
     
     var disposeBag = DisposeBag()
+   
     private let tableView : UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.backgroundColor = .clear
